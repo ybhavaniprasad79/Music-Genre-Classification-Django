@@ -17,5 +17,22 @@ pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
 python manage.py migrate
-# Pre-warm numba cache for librosa to avoid timeout on first request
-python -c "import librosa; librosa.util.valid_audio([0, 1, 0], mono=False)" 2>/dev/null || true
+
+# Aggressive pre-warming: compile librosa functions to avoid timeout
+python << 'PYTHON_EOF'
+import os
+import librosa
+import numpy as np
+
+print('Pre-warming librosa functions...')
+test_signal = np.random.randn(22050)
+
+try:
+    librosa.onset.onset_strength(y=test_signal, sr=22050)
+    librosa.beat.tempo(onset_envelope=np.random.randn(100), sr=22050)
+    librosa.feature.spectral_centroid(y=test_signal, sr=22050)
+    librosa.feature.mfcc(y=test_signal, sr=22050)
+    print('✓ Librosa JIT cache pre-warmed successfully')
+except Exception as e:
+    print(f'⚠ Warmup incomplete (non-critical): {e}')
+PYTHON_EOF
