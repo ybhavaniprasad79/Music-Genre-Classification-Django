@@ -1,5 +1,6 @@
 # Install numpy first (required by other packages)
-numpy>=1.18.0,<2.0
+# Pin to <1.24 for compatibility with old scikit-learn 0.22.1 (uses deprecated np.float)
+numpy>=1.18.0,<1.24
 
 # Core dependencies
 Django>=3.2,<4.0
