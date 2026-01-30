@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import ListView
+from django.views.generic import TemplateView
 from .apps import PredictorConfig
 from .forms import DocumentForm
 from .models import Document
@@ -11,10 +11,8 @@ from .predict import predict_gen
 from django.contrib import messages
 warnings.simplefilter('ignore')
 
-class IndexView(ListView):
-    template_name= 'music/index.html'
-    def get_queryset(self):
-        return True
+class IndexView(TemplateView):
+    template_name = 'music/index.html'
 
 def model_form_upload(request):
 
