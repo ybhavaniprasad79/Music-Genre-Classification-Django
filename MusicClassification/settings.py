@@ -26,6 +26,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'c2!j!65n$n8lbsp0vqk=(9#v9+irenmrvie(l
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+render_hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if render_hostname and render_hostname not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(render_hostname)
 
 
 # Application definition
