@@ -17,3 +17,5 @@ pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
 python manage.py migrate
+# Pre-warm numba cache for librosa to avoid timeout on first request
+python -c "import librosa; librosa.util.valid_audio([0, 1, 0], mono=False)" 2>/dev/null || true
