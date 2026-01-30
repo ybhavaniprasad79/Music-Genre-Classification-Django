@@ -6,7 +6,7 @@ set -o errexit
 pip install --upgrade pip
 
 # Install build dependencies first
-pip install wheel setuptools
+pip install wheel setuptools "Cython<3.0"
 pip install "numpy<1.20" "scipy<1.6"
 
 # Install scikit-learn separately with no build isolation
